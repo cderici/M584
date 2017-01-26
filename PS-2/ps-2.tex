@@ -4,7 +4,7 @@
 \usepackage{color}
 \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
 \usepackage{amsmath, amssymb}
-
+%\usepackage{mathabx}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
@@ -15,6 +15,24 @@
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \newcommand{\Hrule}{\rule{\linewidth}{0.3mm}}
+
+
+% couldn't find the symbol,
+% this is a copy/paste from a stackexchange answer
+\providecommand{\dotdiv}{% Don't redefine it if available
+  \mathbin{% We want a binary operation
+    \vphantom{+}% The same height as a plus or minus
+    \text{% Change size in sub/superscripts
+      \mathsurround=0pt % To be on the safe side
+      \ooalign{% Superimpose the two symbols
+        \noalign{\kern-.35ex}% but the dot is raised a bit
+        \hidewidth$\smash{\cdot}$\hidewidth\cr % Dot
+        \noalign{\kern.35ex}% Backup for vertical alignment
+        $-$\cr % Minus
+      }%
+    }%
+  }%
+}
 
 \makeatletter% since there's an at-sign (@) in the command name
 \renewcommand{\@maketitle}{
@@ -38,19 +56,106 @@
 
 \maketitle% prints the title block
 
-\paragraph{1) x1B.16}
+\paragraph{1) x1B.16} For \textit{restriction}, let $F(u,n+1)$ be the function that constructs $u$ up to the $n^{th}$ factor.
 
+\[
+\begin{array}{rcl}
+F(u,0) & = & \langle\rangle \\
+
+F(u, n+1) & = & append(F(u,n),(u)_n)
+\end{array}
+\]
+
+So $F(u,0) = \langle\rangle$, $F(u,1) = \langle u_0 \rangle$, $F(u,2) = \langle u_0, u_1 \rangle$, and so on. Then $u \upharpoonright i$ is defined as follows.
+
+\[
+u \upharpoonright i = \left\{\begin{array}{lr}
+    F(u,i), & \text{if } i\leq n \\
+    0, & \text{otherwise}
+  \end{array}\right\}
+\]
+
+We could also define it just as a division as follows.
+
+\[
+u \upharpoonright i = \left\{\begin{array}{lr}
+
+  quot(u, \Pi_{i\leq j\leq lh(u)} p_j^{(u)_j+1}), & \text{if } u=\langle u_0, \ldots, u_{n-1}\rangle with i\leq lh(u) \\
+
+    0, & \text{otherwise}
+  \end{array}\right\}
+\]
+
+\paragraph{} For \textit{concatenation}, let $F(u,v)$ be the function that \emph{appends} $v$ to $u$ one by one.
+
+%% I don't like this (my solution was the multiplication one below), if you have a better solution, just write that version
+\[
+\begin{array}{rcl}
+F(u,\langle\rangle) & = & u \\
+
+F(u,v) & = & append(F(u, v \upharpoonright lh(v)\dotdiv 1), (v)_{lh(v)\dotdiv 1})
+\end{array}
+\]
+
+So e.g. \[
+\begin{array}{rcl}
+F(\langle u_0 \rangle,\langle v_0, v_1 \rangle) & = & append(F(\langle u_0 \rangle, \langle v_0 \rangle), v_1) \\
+
+& = & append(append(F(\langle u_0 \rangle,\langle\rangle), v_0), v_1) \\
+
+& = & append(append(\langle u_0 \rangle, v_0), v_1) \\
+
+& = & append(\langle u_0, v_0 \rangle, v_1) \\
+
+& = & \langle u_0,v_0,v_1 \rangle \\
+
+\end{array}
+\]
+
+Then define $u * v$ as follows.
+
+\[
+u * v = \left\{\begin{array}{lr}
+    F(u,v), & \text{if } u = \langle u_0, \ldots, u_{n-1} \rangle, v = \langle v_0, \ldots, v_{m-1} \rangle \\
+    0, & \text{otherwise}
+  \end{array}\right\}
+\]
+
+Similarly to the \textit{restriction}, we could define the \textit{concatenation} also as a multiplication as follows.
+
+\begin{equation*}
+u * v = u.\Pi_{0\leq j < lh(v)} p_{n+j}^{(v)_j+1}
+\end{equation*}
+  
 \paragraph{2) x1B.20}
 
-\newpage
+\paragraph{} We know that
+
+\begin{equation*}
+  X_P(y,\overrightarrow{x}) = X_H(\langle X_P(0,\overrightarrow{x}), \ldots, X_P(y-1,\overrightarrow{x}) \rangle, \overrightarrow{x})
+\end{equation*}
+
+So in order to show that $X_P$ is primitive recursive, instead of trying to define $X_H$ by primitive recursion in terms of $X_P$ (for which we try to define $X_H$ by primitive recursion in the first place), let
+
+\[
+\begin{array}{rcl}
+  F(0, \overrightarrow{x}) & = & 1 \\
+  F(y+1, \overrightarrow{x}) & = & append(F(y,\overrightarrow{x}), X_H(F(y,\overrightarrow{x}), y, \overrightarrow{x}))
+\end{array}
+\]
+
+and let
+
+\[
+\begin{array}{rcl}
+  X_P(y, \overrightarrow{x}) & = & (F(y+1,\overrightarrow{x}))_y \\
+  & = & \text{ i.e. the last element of } F(y+1,\overrightarrow{x})
+\end{array} 
+\]
+
+
 
 \paragraph{3) x1B.21}
-%% \begin{thebibliography}{1}
-
-%% \bibitem{www}
-%% E. Başar, C. Derici, Ç. Şenol, \emph{WorldWithWeb: A compiler from world applications to JavaScript}, In proceedings of The Scheme and Functional Programming Workshop\hskip 1em plus 0.5em minus 0.4em\relax Boston, Massachusetts, 2009.
-
-%% \end{thebibliography}
 
 
 \end{document}
