@@ -121,7 +121,7 @@ u * v = \left\{\begin{array}{lr}
   \end{array}\right\}
 \]
 
-Similarly to the \textit{restriction}, we could define the \textit{concatenation} also as a multiplication as follows.
+Similar to the \textit{restriction}, we could define the \textit{concatenation} also as a multiplication as follows.
 
 \begin{equation*}
 u * v = u.\Pi_{0\leq j < lh(v)} p_{n+j}^{(v)_j+1}
@@ -135,7 +135,7 @@ u * v = u.\Pi_{0\leq j < lh(v)} p_{n+j}^{(v)_j+1}
   X_P(y,\overrightarrow{x}) = X_H(\langle X_P(0,\overrightarrow{x}), \ldots, X_P(y-1,\overrightarrow{x}) \rangle, \overrightarrow{x})
 \end{equation*}
 
-So in order to show that $X_P$ is primitive recursive, instead of trying to define $X_H$ by primitive recursion in terms of $X_P$ (for which we try to define $X_H$ by primitive recursion in the first place), let
+In order to show that $X_P$ is primitive recursive, instead of trying to define $X_H$ by primitive recursion in terms of $X_P$ (for which we try to define $X_H$ by primitive recursion in the first place), let
 
 \[
 \begin{array}{rcl}
@@ -165,14 +165,15 @@ and let
 \]
 
 In order to show that $f$ is the one and only function that satisfies
-those, we need to carefully apply the Basic Recursion Lemma (BRL)
-(with explicit definitions of functions and sets), and identify $f$
-with a function ($\mathbb{N} \rightarrow (\mathbb{N} \rightarrow
-\mathbb{N})$) that is guaranteed to be unique by the BRL. That would
-establish a bijection between the solutions of the equations above and
-the equations that we're going to show below. And since that's a
-bijection, there's as many solutions/functions that satisfy one set of
-equations as ones that satisfy the other, namely one.
+these equations, we need to carefully apply the Basic Recursion Lemma
+(BRL) (i.e. providing explicit definitions of functions and sets), and
+identify $f$ with a function ($\mathbb{N} \rightarrow (\mathbb{N}
+\rightarrow \mathbb{N})$) that is guaranteed to be unique by the
+BRL. That would establish a bijection between the solutions of the
+equations above and the equations for the function we define using
+BRL. And since that's a bijection, there's as many solutions/functions
+that satisfy one set of equations as ones that satisfy the other,
+namely only one.
 
 Let
 
@@ -206,7 +207,7 @@ initial inputs and try to identify the pattern in the computation.
 \end{array} 
 \]
 
-\paragraph{} First, we define a function to compute $T(n+1) = \tau (0, \tau (1, \tau (2, \ldots, \tau (n, y))) \ldots )$. To define $T$ by primitive recursion, we reverse the computation, and let
+\paragraph{} First, we define a function to compute $\tau (0, \tau (1, \tau (2, \ldots, \tau (n, y))) \ldots )$. To define a function for this by primitive recursion, we reverse the computation, and let
 
 \[
 \begin{array}{rcl}
@@ -214,6 +215,9 @@ initial inputs and try to identify the pattern in the computation.
   T(n+1,m,y) & = & \tau (m \dotdiv n, T(n,m,y))
 \end{array} 
 \]
+
+The reason that we reverse it is that otherwise $T(n)$ would be
+defined in terms of $T(n+1)$.
 
 So e.g. if $m=3$, then
 
@@ -227,7 +231,7 @@ So e.g. if $m=3$, then
 \end{array} 
 \]
 
-\paragraph{} To define $f$ by primitive recursion using $T$, we reverse it again, as follows.
+\paragraph{} In order to define $f$ by primitive recursion using $T$, we reverse it again, as follows.
 
 \[
 \begin{array}{rcl}
