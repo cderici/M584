@@ -187,8 +187,64 @@ with $\mathcal{W} = \mathbb{N}^{\mathbb{N}}$ and $H: \mathbb{N}^{\mathbb{N}} \ti
 
 
 
-\paragraph{} Now to show that $f(x,y)$ is primitive recursive if the given
-functions are primitive recursive...
+\paragraph{} We also show that $f(x,y)$ is primitive recursive if the given
+functions are primitive recursive. Let's first compute $f$ with some
+initial inputs and try to identify the pattern in the computation.
+
+\[
+\begin{array}{rcl}
+  f(0,y) & = & g(y) \\ \\
+  
+  f(1, y) & = & h(f(0,\tau (0,y)), 0, y) \\
+  & = & h(g(\tau (0,y)), 0, y) \\ \\
+
+  f(2, y) & = & h(f(1,\tau (1,y)), 1, y) \\
+  & = & h(h(g(\tau (0, \tau (1,y))),0,\tau (1,y)), 1, y) \\
+
+  f(3, y) & = & h(f(2,\tau (2,y)), 2, y) \\
+  & = & h(h(h(g(\tau (0, \tau (1, \tau (2, y)))),0,\tau (1, \tau (2, y))), 1, \tau (2,y)), 2, y)
+\end{array} 
+\]
+
+\paragraph{} First, we define a function to compute $T(n+1) = \tau (0, \tau (1, \tau (2, \ldots, \tau (n, y))) \ldots )$. To define $T$ by primitive recursion, we reverse the computation, and let
+
+\[
+\begin{array}{rcl}
+  T(0,m,y) & = & y \\
+  T(n+1,m,y) & = & \tau (m \dotdiv n, T(n,m,y))
+\end{array} 
+\]
+
+So e.g. if $m=3$, then
+
+\[
+\begin{array}{rcl}
+  T(0,3,y) & = & y \\
+  T(1,3,y) & = & \tau(3,y) \\
+  T(2,3,y) & = & \tau(2, \tau (3,y)) \\
+  T(3,3,y) & = & \tau(1, \tau(2, \tau (3,y))) \\
+  T(4,3,y) & = & \tau(0,\tau(1, \tau(2, \tau (3,y)))) \\
+\end{array} 
+\]
+
+\paragraph{} To define $f$ by primitive recursion using $T$, we reverse it again, as follows.
+
+\[
+\begin{array}{rcl}
+  S(n,m,y) & = & T(m+1 \dotdiv n, m, y)
+\end{array} 
+\]
+
+
+\paragraph{} Finally we define $f$ using $S$ as follows.
+
+\[
+\begin{array}{rcl}
+  f(0,y) & = & g(y) \\
+  f(m+1,y) & = & h(f(m,y), m , S(m+1,m,y))
+\end{array} 
+\]
+
 
 
 
