@@ -155,7 +155,41 @@ and let
 
 
 
-\paragraph{3) x1B.21}
+\paragraph{3) x1B.21} Given the function $g(x)$, $h(w,x,y)$, $\tau (x,y)$, show that there exists exactly one function $f(x,y)$ that satisfies the equations:
+
+\[
+\begin{array}{rcl}
+  f(0,y) & = & g(y) \\
+  f(x + 1, y) & = & h(f(x,\tau (x,y)), x, y)
+\end{array} 
+\]
+
+In order to show that $f$ is the one and only function that satisfies
+those, we need to carefully apply the Basic Recursion Lemma (BRL)
+(with explicit definitions of functions and sets), and identify $f$
+with a function ($\mathbb{N} \rightarrow (\mathbb{N} \rightarrow
+\mathbb{N})$) that is guaranteed to be unique by the BRL. That would
+establish a bijection between the solutions of the equations above and
+the equations that we're going to show below. And since that's a
+bijection, there's as many solutions/functions that satisfy one set of
+equations as ones that satisfy the other, namely one.
+
+Let
+
+\[
+\begin{array}{rcl}
+  f(0) & = & \lambda x.g(x) = g \\
+  f(x + 1) & = & H(f(x),x) \text{  where } H(p,x) = \lambda y. h(p(\tau (x,y)), x, y)
+\end{array} 
+\]
+
+with $\mathcal{W} = \mathbb{N}^{\mathbb{N}}$ and $H: \mathbb{N}^{\mathbb{N}} \times \mathbb{N} \rightarrow \mathbb{N}^{\mathbb{N}}$.
+
+
+
+\paragraph{} Now to show that $f(x,y)$ is primitive recursive if the given
+functions are primitive recursive...
+
 
 
 \end{document}
